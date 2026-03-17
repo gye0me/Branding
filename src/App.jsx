@@ -5,7 +5,7 @@ import HomeContent from "./pages/Home";
 import Market from './pages/Market';
 import Write from './pages/Write';
 import Chat from './pages/Chat';
-import Mypage from './pages/Mypage';
+import MyPage from './pages/Mypage';
 
 function App() {
   const [activeTab, setActiveTab] = useState('home');
