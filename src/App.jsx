@@ -17,7 +17,7 @@ function App() {
       case 'market': return <Market />;
       case 'write': return <Write />;
       case 'chat': return <Chat />;
-      case 'profile': return <MyPage />;
+      case 'profile': return <Mypage />;
       default: return <HomeContent />;
     }
   };
