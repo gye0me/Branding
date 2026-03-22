@@ -1,26 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Search, User, MessageCircle } from 'lucide-react';
 
-const Home = () => {
-  const [currentBanner, setCurrentBanner] = useState(0);
-
-  // 자동 슬라이드 광고 데이터
-  const banners = [
-    { id: 1, title: "치트키로 시작하기!", sub: "공모전 준비를 위한", color: "bg-[#49B49F]", icon: "🎓" },
-    { id: 2, title: "이번 주 인기 템플릿", sub: "다운로드 TOP 5 확인하기", color: "bg-[#F4A261]", icon: "🔥" },
-    { id: 3, title: "과제 제출 1시간 전?", sub: "빠르게 끝내는 요약 가이드", color: "bg-[#4A90E2]", icon: "⏰" },
-  ];
-
-  // 3초마다 배너 변경 로직
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentBanner((prev) => (prev + 1) % banners.length);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [banners.length]);
-
+const Home = ({user}) => {
   return (
-    <div className="animate-fadeIn pb-10">
+    <div className="animate-fadeIn bg-white min-h-screen">
+
+      <div className="px-4 py-2 text-black">
+        <p>내 UID: {user.uid}</p>
+      </div>
       {/* 1. 검색창 (홈 화면 상단 전용) */}
       <div className="px-4 py-3">
         <div className="relative">
@@ -33,37 +20,14 @@ const Home = () => {
         </div>
       </div>
 
-      {/* 2. 자동 슬라이드 상단 배너 */}
+      {/* 2. 상단 배너 */}
       <div className="px-4 mb-6">
-        <div className="relative h-32 overflow-hidden rounded-2xl shadow-sm">
-          {banners.map((banner, index) => (
-            <div
-              key={banner.id}
-              className={`absolute inset-0 w-full h-full p-6 text-white flex justify-between items-center transition-all duration-700 ease-in-out ${
-                index === currentBanner ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full'
-              } ${banner.color}`}
-            >
-              <div>
-                <h2 className="text-xl font-bold mb-1">{banner.title}</h2>
-                <p className="text-sm opacity-90">{banner.sub}</p>
-              </div>
-              <div className="bg-white/20 p-3 rounded-full text-2xl shadow-inner">
-                {banner.icon}
-              </div>
-            </div>
-          ))}
-          
-          {/* 하단 도트(인디케이터) */}
-          <div className="absolute bottom-3 left-6 flex gap-1.5">
-            {banners.map((_, i) => (
-              <div 
-                key={i} 
-                className={`h-1.5 rounded-full transition-all ${
-                  i === currentBanner ? 'w-4 bg-white' : 'w-1.5 bg-white/50'
-                }`} 
-              />
-            ))}
+        <div className="bg-[#49B49F] rounded-2xl p-6 text-white flex justify-between items-center relative overflow-hidden shadow-sm">
+          <div>
+            <h2 className="text-xl font-bold mb-1">치트키로 시작하기!</h2>
+            <p className="text-sm opacity-90">공모전 준비를 위한</p>
           </div>
+          <div className="bg-orange-400 p-3 rounded-full shadow-inner text-2xl">🎓</div>
         </div>
       </div>
 
@@ -93,9 +57,7 @@ const Home = () => {
               <p className="text-xs text-gray-400">Updated my UX design template!</p>
             </div>
           </div>
-          <div className="bg-orange-400 h-32 rounded-xl mb-3 w-full opacity-80 flex items-center justify-center">
-             <span className="text-white font-bold opacity-50 italic">Preview Image</span>
-          </div>
+          <div className="bg-orange-400 h-32 rounded-xl mb-3 w-full opacity-80"></div>
           <div className="flex gap-4 text-gray-500">
             <button className="flex items-center gap-1 text-xs hover:text-red-500 transition">
               <span className="text-lg">♡</span> 12
@@ -110,9 +72,9 @@ const Home = () => {
   );
 };
 
-// --- 보조 컴포넌트 ---
+// --- 내부에서만 쓰이는 보조 컴포넌트 ---
 const ProductCard = ({ title, price, user, temp }) => (
-  <div className="min-w-[160px] bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:border-teal-200 transition cursor-pointer active:scale-95">
+  <div className="min-w-[160px] bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:border-teal-200 transition">
     <div className="bg-orange-300 h-28 w-full flex items-center justify-center">
       <div className="bg-white p-2 rounded shadow-sm">
         <span className="font-bold text-blue-600">N</span>
