@@ -1,9 +1,13 @@
 import React from 'react';
 import { Search, User, MessageCircle } from 'lucide-react';
 
-const Home = () => {
+const Home = ({user}) => {
   return (
-    <div className="animate-fadeIn">
+    <div className="animate-fadeIn bg-white min-h-screen">
+
+      <div className="px-4 py-2 text-black">
+        <p>내 UID: {user.uid}</p>
+      </div>
       {/* 1. 검색창 (홈 화면 상단 전용) */}
       <div className="px-4 py-3">
         <div className="relative">
