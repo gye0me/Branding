@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./firebase";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "./firebase";
 
 function Login({ setPage }) {
   const [email, setEmail] = useState("");
@@ -10,8 +10,21 @@ function Login({ setPage }) {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log("로그인 성공");
+      setPage("home");  // 로그인 성공 후 홈으로 이동
     } catch (error) {
       console.log("에러:", error);
+      alert("로그인 실패: " + error.message);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      console.log("Google 로그인 성공");
+      setPage("home");  // Google 로그인 성공 후 홈으로 이동
+    } catch (error) {
+      console.log("Google 로그인 에러:", error);
+      alert("Google 로그인 실패: " + error.message);
     }
   };
 
@@ -37,6 +50,13 @@ function Login({ setPage }) {
         className="w-full py-3 bg-[#49B49F] text-white rounded-xl mb-3"
       >
         로그인
+      </button>
+
+      <button
+        onClick={handleGoogleLogin}
+        className="w-full py-3 bg-white border-2 border-gray-300 text-black rounded-xl mb-3 font-medium"
+      >
+        🔍 Google로 로그인
       </button>
 
       <button

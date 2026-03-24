@@ -8,12 +8,14 @@ import Home from "./pages/Home";
 import Market from "./pages/Market";
 import Write from "./pages/Write";
 import Chat from "./pages/Chat";
+import ChatDetail from "./pages/ChatDetail";
 import Mypage from "./pages/Mypage";
 
 function App() {
   const [user, setUser] = useState(null);
   const [page, setPage] = useState("login");
-  const [activeTab, setActiveTab] = useState("home"); 
+  const [activeTab, setActiveTab] = useState("home");
+  const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -55,7 +57,10 @@ function App() {
       case "write":
         return <Write user={user} />; // user 전달
       case "chat":
-        return <Chat />;
+        if (selectedRoomId) {
+          return <ChatDetail roomId={selectedRoomId} onBack={() => setSelectedRoomId(null)} />;
+        }
+        return <Chat onChatClick={(id) => setSelectedRoomId(id)} />;
       case "profile":
         return <Mypage user={user}/>;
       default:
@@ -64,10 +69,14 @@ function App() {
   };
 
   return (
-    <Layout activeTab={activeTab} setActiveTab={setActiveTab}>
+    <Layout activeTab={activeTab} setActiveTab={(tab) => {
+      setActiveTab(tab);
+      setSelectedRoomId(null);
+    }}>
       {renderPage()}
     </Layout>
   );
 }
 
 export default App;
+
