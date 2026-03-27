@@ -19,7 +19,13 @@ const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
 export const storage = getStorage(app); 
-export const analytics = getAnalytics(app);
+let analyticsInstance = null;
+try {
+  analyticsInstance = getAnalytics(app);
+} catch (error) {
+  console.warn("Firebase Analytics 초기화 건너뜀:", error?.message || error);
+}
+export const analytics = analyticsInstance;
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 

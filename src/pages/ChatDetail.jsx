@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { collection, addDoc, query, onSnapshot, orderBy, serverTimestamp } from "firebase/firestore";
 
@@ -25,7 +25,9 @@ const ChatDetail = ({ roomId, onBack }) => {
         sender: "소희"
       });
       setInputText("");
-    } catch (err) { console.error(err); }
+    } catch (err) { 
+      console.error(err); 
+    }
   };
 
   return (
@@ -38,8 +40,10 @@ const ChatDetail = ({ roomId, onBack }) => {
       <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
         {messages.map((msg) => (
           <div key={msg.id} className={`flex ${msg.sender === "소희" ? "justify-end" : "justify-start"}`}>
-            <div className={`p-3 px-4 rounded-2xl max-w-[75%] text-sm text-black shadow-sm ${
-              msg.sender === "소희" ? "bg-teal-500 text-white" : "bg-white border border-gray-200"
+            <div className={`p-3 px-4 rounded-2xl max-w-[75%] text-sm shadow-sm ${
+              msg.sender === "소희" 
+                ? "bg-teal-500 text-white" 
+                : "bg-white border border-gray-200 text-black"
             }`}>
               {msg.text}
             </div>

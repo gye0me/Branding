@@ -1,16 +1,16 @@
 import React from 'react';
 import { Home, ShoppingBag, PlusSquare, MessageCircle, User, Bell } from 'lucide-react';
 
-const Layout = ({ children, activeTab, setActiveTab }) => {
+const Layout = ({ children, activeTab, setActiveTab, isModalOpen = false }) => {
   return (
     <div className="flex justify-center bg-gray-100 min-h-screen">
-      <div className="w-full max-w-md bg-white min-h-screen flex flex-col relative shadow-lg">
+      <div className="w-full max-w-md bg-white min-h-screen flex flex-col shadow-lg">
         
         {/* 고정 상단 헤더 */}
         <header className="p-4 flex justify-between items-center bg-white border-b border-gray-50 sticky top-0 z-10">
           <div className="flex items-center gap-1">
             <span className="text-red-700 text-2xl font-bold italic">B:</span>
-            <span className="text-sm font-semibold text-gray-800">캠퍼스 자산 마켓 [ 대학교 ]</span>
+            <span className="text-sm font-semibold text-gray-800">캠퍼스 자산 마켓 [ 덕성여자대학교 ]</span>
           </div>
           <Bell size={20} className="text-gray-600 cursor-pointer" />
         </header>
@@ -21,7 +21,7 @@ const Layout = ({ children, activeTab, setActiveTab }) => {
         </div>
 
         {/* 고정 하단 탭 바 */}
-        <nav className="absolute bottom-0 w-full bg-white border-t border-gray-100 flex justify-around py-3 z-50">
+        <nav className={`sticky bottom-0 w-full bg-white border-t border-gray-100 flex justify-around py-3 z-50 transition-all duration-300 ${isModalOpen ? 'opacity-30 pointer-events-none' : 'opacity-100'}`}>
           <NavItem icon={<Home size={22} />} label="홈" active={activeTab === 'home'} onClick={() => setActiveTab('home')} />
           <NavItem icon={<ShoppingBag size={22} />} label="마켓" active={activeTab === 'market'} onClick={() => setActiveTab('market')} />
           <NavItem icon={<PlusSquare size={22} />} label="글쓰기" active={activeTab === 'write'} onClick={() => setActiveTab('write')} />
