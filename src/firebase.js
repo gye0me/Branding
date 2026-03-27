@@ -26,3 +26,4 @@ try {
 }
 export const analytics = analyticsInstance;
 export const googleProvider = new GoogleAuthProvider();
+export default app;
