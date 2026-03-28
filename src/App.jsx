@@ -18,24 +18,22 @@ function App() {
   const [activeTab, setActiveTab] = useState("home");
   const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [selectedChatView, setSelectedChatView] = useState("detail");
+  const [selectedUserName, setSelectedUserName] = useState(""); // ★ 상대방 이름 저장용 추가
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
       setUser(currentUser);
-
       if (currentUser) {
         setActiveTab("home");
       }
       setLoading(false);
     });
-
     return () => unsubscribe();
   }, []);
 
   if (loading) return <div className="p-10 text-center">로딩중...</div>;
 
-  // 1. 로그인이 안 된 상태
   if (!user) {
     return (
       <Layout activeTab="home" setActiveTab={() => {}}>
@@ -48,7 +46,6 @@ function App() {
     );
   }
 
-  // 2. 로그인 된 상태에서 탭별 페이지 선택
   const renderPage = () => {
     switch (activeTab) {
       case "home":
@@ -59,27 +56,35 @@ function App() {
         return <Write user={user} />;
       case "chat":
         if (selectedRoomId) {
+          // 미고일 때 (Question 뷰)
           if (selectedChatView === "question") {
             return (
               <ChatQuestion
                 roomId={selectedRoomId}
-                onBack={() => setSelectedChatView("detail")}
-                userName={user?.email?.split("@")[0] || "문의자"}
-                isSeller
+                onBack={() => {
+                  setSelectedRoomId(null);
+                  setSelectedChatView("detail");
+                }}
+                userName={selectedUserName} // ★ 선택된 이름 전달
+                isSeller={true}
               />
             );
           }
-
+          // 소희나 일반 대화일 때 (Detail 뷰)
           return (
             <ChatDetail
+              roomId={selectedRoomId}
+              userName={selectedUserName} // ★ 선택된 이름 전달
               onBack={() => setSelectedRoomId(null)}
             />
           );
         }
+        // 채팅 목록 페이지
         return (
           <Chat
-            onChatClick={(id, view = "detail") => {
+            onChatClick={(id, name, view) => { // ★ 인자 3개(ID, 이름, 뷰타입)를 받음
               setSelectedRoomId(id);
+              setSelectedUserName(name);
               setSelectedChatView(view);
             }}
           />
@@ -106,4 +111,3 @@ function App() {
 }
 
 export default App;
-
