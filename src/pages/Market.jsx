@@ -1,15 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ArrowLeft, ChevronDown, ArrowRight } from 'lucide-react';
 
-const Market = ({ setIsModalOpen = () => {} }) => {
+const Market = ({ setIsModalOpen = () => {}, onModalChange }) => {
   const [activeCategory, setActiveCategory] = useState('전체');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   // 모달 상태 변경 시 Layout의 하단 바 투명도 조절
   useEffect(() => {
     setIsModalOpen(!!selectedProduct);
-  }, [selectedProduct, setIsModalOpen]);
+    if (onModalChange) {
+      onModalChange(!!selectedProduct || showImageModal);
+    }
+  }, [selectedProduct, setIsModalOpen, onModalChange, showImageModal]);
+
+  const handleImageClick = (imageSrc) => {
+    setSelectedImage(imageSrc);
+    setShowImageModal(true);
+  };
 
   const popularKeywords = ["공모전", "템플릿", "수상", "장학금"];
 
@@ -220,7 +230,8 @@ const Market = ({ setIsModalOpen = () => {} }) => {
                           <img
                             src={`/${image}`}
                             alt={`${selectedProduct.title} 미리보기 ${idx + 1}`}
-                            className="max-h-96 w-full rounded-md object-contain"
+                            onClick={() => handleImageClick(`/${image}`)}
+                            className="max-h-96 w-full rounded-md object-contain cursor-pointer hover:opacity-80 transition-opacity"
                           />
                         </div>
                       ))
@@ -229,7 +240,8 @@ const Market = ({ setIsModalOpen = () => {} }) => {
                         <img
                           src={`/${selectedProduct.previewImage}`}
                           alt={selectedProduct.title}
-                          className="max-h-96 w-full rounded-md object-contain"
+                          onClick={() => handleImageClick(`/${selectedProduct.previewImage}`)}
+                          className="max-h-96 w-full rounded-md object-contain cursor-pointer hover:opacity-80 transition-opacity"
                         />
                       </div>
                     )}
@@ -287,6 +299,28 @@ const Market = ({ setIsModalOpen = () => {} }) => {
               <button className="w-full px-6 py-3 bg-gradient-to-r from-[#1FBA9E] to-[#2A9D8F] text-white rounded-xl font-semibold hover:from-[#18a088] hover:to-[#1f8078] transition-all duration-300 shadow-lg hover:shadow-xl">구매하기</button>
               <button className="w-full px-6 py-3 bg-white border-2 border-[#1FBA9E] text-[#1FBA9E] rounded-xl font-semibold hover:bg-[#f0fffe] transition-all duration-300">채팅하기</button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showImageModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 overflow-auto p-4"
+          onClick={() => setShowImageModal(false)}
+        >
+          <div className="relative my-auto">
+            <img
+              src={selectedImage}
+              alt="확대된 이미지"
+              className="max-w-full max-h-[90vh] rounded-lg object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <button
+              onClick={() => setShowImageModal(false)}
+              className="absolute -top-10 right-0 text-white text-3xl font-bold hover:text-gray-300"
+            >
+              ✕
+            </button>
           </div>
         </div>
       )}

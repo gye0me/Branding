@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 
-const Write = ({ user }) => {
+const Write = ({ user, onModalChange }) => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [fileType, setFileType] = useState("notion"); // notion, ppt, hwp
@@ -16,6 +16,8 @@ const Write = ({ user }) => {
   const [isAiRegistered, setIsAiRegistered] = useState(false);
   const [isSimilarityPass, setIsSimilarityPass] = useState(false);
   const [price, setPrice] = useState("");
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const getRecommendedPrice = () => {
     if (fileType === 'notion') {
@@ -27,6 +29,15 @@ const Write = ({ user }) => {
     }
     return null;
   };
+
+  const handleImageClick = (imageSrc) => {
+    setSelectedImage(imageSrc);
+    setShowImageModal(true);
+  };
+
+  useEffect(() => {
+    onModalChange(showImageModal);
+  }, [showImageModal, onModalChange]);
 
   const isContentSufficient = title.trim().length >= 5 && desc.trim().length >= 100;
   const recommendedPrice = getRecommendedPrice();
@@ -60,6 +71,7 @@ const Write = ({ user }) => {
         price: price ? parseInt(price) : null,
         fileUrl: null, // 파일 없음
         fileName: null, // 파일 없음
+        previewImage: '/Dwp_b.png', // 기본 미리보기 이미지
         userId: user.uid,
         authorName: user.displayName || user.email || '익명', // 작성자 이름 추가
         createdAt: serverTimestamp(),
@@ -203,7 +215,8 @@ const Write = ({ user }) => {
               <img
                 src="/contest.jpg"
                 alt="증빙자료 이미지"
-                className="max-h-[32rem] w-full rounded-md object-contain"
+                onClick={() => handleImageClick("/contest.jpg")}
+                className="max-h-[32rem] w-full rounded-md object-contain cursor-pointer hover:opacity-80 transition-opacity"
               />
             </div>
           </div>
@@ -225,7 +238,8 @@ const Write = ({ user }) => {
               <img
                 src="/Dwp.png"
                 alt="판매할 자료 이미지"
-                className="max-h-[32rem] w-full rounded-md object-contain"
+                onClick={() => handleImageClick("/Dwp.png")}
+                className="max-h-[32rem] w-full rounded-md object-contain cursor-pointer hover:opacity-80 transition-opacity"
               />
             </div>
           </div>
@@ -370,6 +384,28 @@ const Write = ({ user }) => {
           {loading ? "등록 중..." : !isSimilarityPass ? "AI 유사도 통과 후 등록 가능" : "등록하기"}
         </button>
       </div>
+
+      {showImageModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 overflow-auto p-4"
+          onClick={() => setShowImageModal(false)}
+        >
+          <div className="relative my-auto">
+            <img
+              src={selectedImage}
+              alt="확대된 이미지"
+              className="max-w-full max-h-[90vh] rounded-lg object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <button
+              onClick={() => setShowImageModal(false)}
+              className="absolute -top-10 right-0 text-white text-3xl font-bold hover:text-gray-300"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

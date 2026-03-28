@@ -20,6 +20,7 @@ function App() {
   const [selectedChatView, setSelectedChatView] = useState("detail");
   const [selectedUserName, setSelectedUserName] = useState(""); // ★ 상대방 이름 저장용 추가
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((currentUser) => {
@@ -49,11 +50,11 @@ function App() {
   const renderPage = () => {
     switch (activeTab) {
       case "home":
-        return <Home user={user} />;
+        return <Home user={user} onModalChange={setIsModalOpen} />;
       case "market":
-        return <Market />;
+        return <Market onModalChange={setIsModalOpen} />;
       case "write":
-        return <Write user={user} />;
+        return <Write user={user} onModalChange={setIsModalOpen} />;
       case "chat":
         if (selectedRoomId) {
           // 미고일 때 (Question 뷰)
@@ -104,6 +105,7 @@ function App() {
         setSelectedRoomId(null);
         setSelectedChatView("detail");
       }}
+      isModalOpen={isModalOpen}
     >
       {renderPage()}
     </Layout>
