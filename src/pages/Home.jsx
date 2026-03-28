@@ -17,7 +17,7 @@ const Home = ({ user, setIsModalOpen = () => {}, onModalChange }) => {
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const test1PreviewImage = '/Dwp_b.png';
+  const test1PreviewImage = '/images/Dwp_b.png';
 
   // 모달 상태 변경 시 Layout의 하단 바 투명도 조절
   useEffect(() => {

@@ -4,6 +4,11 @@ import { Trash2 } from "lucide-react";
 const PostDetailModal = ({ selectedPost, onClose, onDelete, isPostOwner, onImageClick, onToggleLike, getLikeKey, likedPosts, likeCounts, test1PreviewImage }) => {
   if (!selectedPost) return null;
 
+  const toImagePath = (image) => {
+    if (!image) return '';
+    return image.startsWith('/') ? image : `/images/${image}`;
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black bg-opacity-60 backdrop-blur-sm p-4 animate-fade-in">
       <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto bg-white rounded-3xl p-8 shadow-2xl border border-gray-200 transform animate-scale-in">
@@ -35,9 +40,9 @@ const PostDetailModal = ({ selectedPost, onClose, onDelete, isPostOwner, onImage
                   selectedPost.previewImages.map((image, idx) => (
                     <div key={idx} className="rounded-lg border border-gray-300 bg-white p-2">
                       <img
-                        src={`/${image}`}
+                        src={toImagePath(image)}
                         alt={`${selectedPost.title} 미리보기 ${idx + 1}`}
-                        onClick={() => onImageClick(`/${image}`)}
+                        onClick={() => onImageClick(toImagePath(image))}
                         className="max-h-96 w-full rounded-md object-contain cursor-pointer hover:opacity-80 transition-opacity"
                       />
                     </div>
@@ -45,9 +50,9 @@ const PostDetailModal = ({ selectedPost, onClose, onDelete, isPostOwner, onImage
                 ) : (
                   <div className="rounded-lg border border-gray-300 bg-white p-2">
                     <img
-                      src={selectedPost.previewImage || test1PreviewImage}
+                      src={toImagePath(selectedPost.previewImage || test1PreviewImage)}
                       alt={selectedPost.title}
-                      onClick={() => onImageClick(selectedPost.previewImage || test1PreviewImage)}
+                      onClick={() => onImageClick(toImagePath(selectedPost.previewImage || test1PreviewImage))}
                       className="max-h-96 w-full rounded-md object-contain cursor-pointer hover:opacity-80 transition-opacity"
                     />
                   </div>
