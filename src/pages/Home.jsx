@@ -96,7 +96,7 @@ const Home = ({ user, setIsModalOpen = () => {}, onModalChange }) => {
       const dummyPosts = [
         { id: 'dummy1', title: '포트폴리오 템플릿 1', userName: '고냥이', price: 5000, fileType: 'notion', description: '대학생 포트폴리오용 템플릿', createdAt: new Date(), isDummy: true },
         { id: 'dummy2', title: '이력서 템플릿', userName: '성문동', price: 3000, fileType: 'pdf', description: '깔끔한 이력서 디자인', createdAt: new Date(), isDummy: true },
-        { id: 'dummy3', title: '프레젠테이션 템플릿', userName: '김예시', price: 7000, fileType: 'ppt', description: '프로젝트 발표용 PPT', createdAt: new Date(), isDummy: true },
+        { id: 'dummy3', title: '프레젠테이션 템플릿', userName: '김예시', price: 7000, fileType: 'ppt', description: '프로젝트 발표용 PPT', createdAt: new Date(), isDummy: true, isPremium: true },
         { id: 'dummy4', title: '스터디 노트', userName: '김덕성', price: 2000, fileType: 'notion', description: '공부 정리용 템플릿', createdAt: new Date(), isDummy: true },
         { id: 'dummy5', title: '프로젝트 보고서', userName: '이덕새', price: 6000, fileType: 'pdf', description: '팀 프로젝트 보고서 양식', createdAt: new Date(), isDummy: true },
         { id: 'dummy6', title: '포트폴리오 템플릿 2', userName: '도본구', price: 8000, fileType: 'notion', description: '디자인 전공 포트폴리오', createdAt: new Date(), isDummy: true },

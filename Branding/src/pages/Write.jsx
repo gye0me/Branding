@@ -8,6 +8,7 @@ const Write = ({ user }) => {
   const [fileType, setFileType] = useState("notion"); // notion, ppt, hwp
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
   const handleSubmit = async () => {
     if (!user) {
@@ -98,12 +99,25 @@ const Write = ({ user }) => {
           </select>
         </div>
 
+        <div className="flex items-center gap-3 mb-4">
+          <input
+            type="checkbox"
+            id="confirmCreation"
+            checked={isConfirmed}
+            onChange={(e) => setIsConfirmed(e.target.checked)}
+            className="w-4 h-4 cursor-pointer"
+          />
+          <label htmlFor="confirmCreation" className="text-sm text-gray-600 cursor-pointer">
+            본인 창작물임을 확인합니다
+          </label>
+        </div>
+
         <button
           className="w-full py-4 bg-[#49B49F] text-white rounded-xl font-bold disabled:opacity-50"
           onClick={handleSubmit}
-          disabled={loading}
+          disabled={loading || !isConfirmed}
         >
-          {loading ? "등록 중..." : "등록하기"}
+          {loading ? "등록 중..." : !isConfirmed ? "창작물 확인 후 등록 가능" : "등록하기"}
         </button>
       </div>
     </div>

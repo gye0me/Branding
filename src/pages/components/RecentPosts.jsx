@@ -1,5 +1,5 @@
 import React from "react";
-import { Trash2 } from "lucide-react";
+import { Trash2, Star } from "lucide-react";
 
 const RecentPosts = ({ posts, loading, getFileTypeColor, getFileTypeText, onPostClick, onDeletePost, isPostOwner }) => {
   return (
@@ -28,16 +28,30 @@ const RecentPosts = ({ posts, loading, getFileTypeColor, getFileTypeText, onPost
               }}
               role="button"
               tabIndex={0}
-              className="w-full text-left bg-white rounded-3xl p-5 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-[#1FBA9E]"
+              className={`w-full text-left bg-white rounded-3xl p-5 shadow-md hover:shadow-xl transition-all duration-300 border cursor-pointer ${
+                post.isPremium
+                  ? 'border-amber-300 hover:border-amber-400'
+                  : 'border-gray-100 hover:border-[#1FBA9E]'
+              }`}
             >
-              <div className="flex justify-between items-center">
-                <div className="inline-flex items-center gap-2">
-                  <span className={`w-8 h-8 flex items-center justify-center rounded-full text-white font-bold ${getFileTypeColor(post.fileType)}`}>
-                    {getFileTypeText(post.fileType)}
-                  </span>
-                  <p className="text-base font-bold text-gray-800">{post.userName || post.authorName || '익명'}</p>
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <div className="inline-flex items-center gap-2">
+                    <span className={`w-8 h-8 flex items-center justify-center rounded-full text-white font-bold ${getFileTypeColor(post.fileType)}`}>
+                      {getFileTypeText(post.fileType)}
+                    </span>
+                    <p className="text-base font-bold text-gray-800">{post.userName || post.authorName || '익명'}</p>
+                    {post.isPremium && (
+                      <span className="flex items-center gap-1 ml-2 px-2 py-1 bg-amber-400 rounded-full">
+                        <Star size={12} className="fill-white text-white" />
+                        <span className="text-xs font-bold text-white">MVP</span>
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-2 text-lg font-semibold text-gray-800">{post.title || '제목 없음'}</p>
+                  <p className="text-sm text-gray-500 mt-1 line-clamp-2 leading-relaxed">{post.description || '설명이 없습니다.'}</p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 ml-4">
                   <span className="text-xs font-bold text-[#1FBA9E]">₩{post.price ? Number(post.price).toLocaleString() : '0'}</span>
                   {isPostOwner(post) && (
                     <button
@@ -55,8 +69,6 @@ const RecentPosts = ({ posts, loading, getFileTypeColor, getFileTypeText, onPost
                   )}
                 </div>
               </div>
-              <p className="mt-2 text-lg font-semibold text-gray-800">{post.title || '제목 없음'}</p>
-              <p className="text-sm text-gray-500 mt-1 line-clamp-2 leading-relaxed">{post.description || '설명이 없습니다.'}</p>
             </div>
           ))}
         </div>

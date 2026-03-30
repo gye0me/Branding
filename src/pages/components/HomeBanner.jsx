@@ -27,6 +27,13 @@ const HomeBanner = () => {
       gradient: "bg-gradient-to-r from-[#E76F51] via-[#F4A261] to-[#E9D758]",
       iconColors: ["#FFE1D7", "#FFE9C8", "#FFF3BD", "#FFD2C3"],
     },
+    {
+      id: 4,
+      title: "브론의 프리미엄 멤버십",
+      sub: "상단 노출과 PREMIUM 배지로\n더 많은 수익 창출하기",
+      gradient: "bg-gradient-to-r from-[#8B5CF6] via-[#D8B4FE] to-[#F3E8FF]",
+      iconColors: ["#DDD6FE", "#E9D5FF", "#F3E8FF", "#EDE9FE"],
+    },
   ];
 
   const movingIcons = [
@@ -42,7 +49,7 @@ const HomeBanner = () => {
       setCurrentSlide((prev) => (prev === banners.length - 1 ? 0 : prev + 1));
     }, 4000);
     return () => clearInterval(timer);
-  }, []);
+  }, [banners.length]);
 
   useEffect(() => {
     const iconTimer = setInterval(() => {
@@ -87,7 +94,7 @@ const HomeBanner = () => {
 
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.22),transparent_56%)] pointer-events-none" />
           <h2 className="text-4xl font-extrabold mb-2 drop-shadow-lg">{banner.title}</h2>
-          <p className="text-lg opacity-95 mb-10 drop-shadow-md">{banner.sub}</p>
+          <p className="text-lg opacity-95 mb-10 drop-shadow-md whitespace-pre-line">{banner.sub}</p>
 
           <div className="w-full max-w-lg flex items-center bg-white/15 backdrop-blur-md rounded-full px-6 py-4 shadow-2xl border border-white/30">
             <Search className="text-white mr-3" size={20} />

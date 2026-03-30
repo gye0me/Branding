@@ -28,6 +28,7 @@ const Write = ({ user, onModalChange = () => {} }) => {
   const [price, setPrice] = useState('');
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
   const getRecommendedPrice = () => {
     if (fileType === 'notion') return { min: 4000, max: 8000 };
@@ -184,12 +185,25 @@ const Write = ({ user, onModalChange = () => {} }) => {
           onAiCheck={handleAiCheck}
         />
 
+        <div className="flex items-center gap-3 mb-4">
+          <input
+            type="checkbox"
+            id="confirmCreation"
+            checked={isConfirmed}
+            onChange={(e) => setIsConfirmed(e.target.checked)}
+            className="w-4 h-4 cursor-pointer"
+          />
+          <label htmlFor="confirmCreation" className="text-sm text-gray-600 cursor-pointer">
+            본인 창작물임을 확인합니다
+          </label>
+        </div>
+
         <button
           className="w-full py-4 bg-[#49B49F] text-white rounded-xl font-bold disabled:opacity-50"
           onClick={handleSubmit}
-          disabled={loading || !isSimilarityPass}
+          disabled={loading || !isSimilarityPass || !isConfirmed}
         >
-          {loading ? '등록 중...' : !isSimilarityPass ? 'AI 유사도 통과 후 등록 가능' : '등록하기'}
+          {loading ? '등록 중...' : !isSimilarityPass ? 'AI 유사도 통과 후 등록 가능' : !isConfirmed ? '창작물 확인 후 등록 가능' : '등록하기'}
         </button>
       </div>
 

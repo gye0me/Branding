@@ -40,7 +40,7 @@ function Signup() {
 
     // 4. [필수] 합격 인증 파일 업로드 여부 확인
     if (!selectedFile) {
-      alert("대학생 인증을 위해 합격통지서(이미지/PDF)를 첨부해 주세요.");
+      alert("대학생 인증을 위해 합격통지서 또는 재학증명서(이미지/PDF)를 첨부해 주세요.");
       return;
     }
 
@@ -127,7 +127,7 @@ function Signup() {
           margin: "0 0 10px 0", 
           color: "#333" 
         }}>
-          🎓 대학생 인증 (합격통지서 첨부)
+          🎓 대학생 인증 (합격통지서 또는 재학증명서 첨부)
         </p>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <label 
